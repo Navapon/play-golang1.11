@@ -10,7 +10,9 @@ pipeline{
 
   environment {
     root = tool name: 'GO_1.11.1', type: 'go'
+    registry = 'navapon3ds/play-golang'
     registryCredential = 'dockerhub'
+
     containerName = 'play-golang'
     scannerHome = tool 'sonar'
     gitRepo = 'https://github.com/Navapon/play-golang1.11.git'
@@ -64,7 +66,7 @@ pipeline{
     stage('Building Docker Image') {
       steps {
         script {
-          dockerImage = docker.build(containerName + ":dev",'./')
+          dockerImage = docker.build(registry + ":dev",'./')
         }
       }
     }
