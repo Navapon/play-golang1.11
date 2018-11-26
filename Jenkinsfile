@@ -22,25 +22,25 @@ pipeline{
   }
 
   stages {
-    stage('Git checkout tags') {
-        steps {
-          script {
-            if (params.TAG != '') {
-              checkout([
-                $class: 'GitSCM', 
-                branches: [[name: "refs/tags/${params.TAG}"]], 
-                userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
-              ])
-            } else {
-              checkout([
-                $class: 'GitSCM', 
-                branches: [[name: "*/${params.BRANCH}"]], 
-                userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
-              ])
-            }
-          }
-        }
-    }
+    // stage('Git checkout tags') {
+    //     steps {
+    //       script {
+    //         if (params.TAG != '') {
+    //           checkout([
+    //             $class: 'GitSCM', 
+    //             branches: [[name: "refs/tags/${params.TAG}"]], 
+    //             userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
+    //           ])
+    //         } else {
+    //           checkout([
+    //             $class: 'GitSCM', 
+    //             branches: [[name: "*/${params.BRANCH}"]], 
+    //             userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
+    //           ])
+    //         }
+    //       }
+    //     }
+    // }
 
     stage('Run GO Test') {
       steps{
