@@ -18,29 +18,29 @@ pipeline{
 
   parameters {
         string(name: 'TAG', defaultValue: '', description: 'Input your tags to deploy')
-        string(name: 'BRANCH', defaultValue: 'dev-docker', description: 'Input your branch to deploy ')
+        string(name: 'BRANCH', defaultValue: 'develop', description: 'Input your branch to deploy ')
   }
 
   stages {
-    // stage('Git checkout tags') {
-    //     steps {
-    //       script {
-    //         if (params.TAG != '') {
-    //           checkout([
-    //             $class: 'GitSCM', 
-    //             branches: [[name: "refs/tags/${params.TAG}"]], 
-    //             userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
-    //           ])
-    //         } else {
-    //           checkout([
-    //             $class: 'GitSCM', 
-    //             branches: [[name: "*/${params.BRANCH}"]], 
-    //             userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
-    //           ])
-    //         }
-    //       }
-    //     }
-    // }
+    stage('Git checkout tags') {
+        steps {
+          script {
+            if (params.TAG != '') {
+              checkout([
+                $class: 'GitSCM', 
+                branches: [[name: "refs/tags/${params.TAG}"]], 
+                userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
+              ])
+            } else {
+              checkout([
+                $class: 'GitSCM', 
+                branches: [[name: "*/${params.BRANCH}"]], 
+                userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
+              ])
+            }
+          }
+        }
+    }
 
     stage('Run GO Test') {
       steps{
