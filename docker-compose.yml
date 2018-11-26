@@ -1,0 +1,17 @@
+version: '3.1'
+
+services:
+  play-golang:
+    build:
+      dockerfile: dev.Dockerfile
+      context: .
+      args:
+        APP_ENV: dev
+    container_name: play-golang
+    ports:
+      - 8880:8080
+    volumes:
+      - ./:/go/src/play-go-1.11
+      - /go/src/play-go-1.11/vendor
+    environment:
+      GO111MODULE: "on"
