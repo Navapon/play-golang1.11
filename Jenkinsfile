@@ -13,7 +13,9 @@ pipeline{
     registryCredential = 'dockerhub'
     containerName = 'play-golang'
     scannerHome = tool 'sonar'
+    gitRepo = 'https://github.com/Navapon/play-golang1.11.git'
   }
+
   parameters {
         string(name: 'TAG', defaultValue: '', description: 'Input your tags to deploy')
         string(name: 'BRANCH', defaultValue: 'dev-docker', description: 'Input your branch to deploy ')
@@ -27,15 +29,13 @@ pipeline{
               checkout([
                 $class: 'GitSCM', 
                 branches: [[name: "refs/tags/${params.TAG}"]], 
-                doGenerateSubmoduleConfigurations: false, 
-                userRemoteConfigs: [[credentialsId: 'git-cridential', url: 'https://navapon@bitbucket.org/3dsinteractive/tesco2018.git']]
+                userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
               ])
             } else {
               checkout([
                 $class: 'GitSCM', 
                 branches: [[name: "*/${params.BRANCH}"]], 
-                doGenerateSubmoduleConfigurations: false, 
-                userRemoteConfigs: [[credentialsId: 'git-cridential', url: 'https://navapon@bitbucket.org/3dsinteractive/tesco2018.git']]
+                userRemoteConfigs: [[credentialsId: 'git-cridential', url: gitRepo]]
               ])
             }
           }
@@ -69,12 +69,22 @@ pipeline{
       }
     }
 
-    stage('Run Container') {
+    stage("Shiping Docker Image") {
       steps {
-        sh "docker rm -f ${containerName} || true" 
-        sh "docker run --network=mtlapizone --rm -d -e 'DB=root:password@tcp(mysql:3306)/esale' -e 'MINIO_ENDPOINT=minio:9000' -e 'MINIO_ACCESS_KEY=HA7SUZICZA2SK0LFWG71' -e 'MINIO_SECRET_KEY=UScYocFOOqBGXCW6bt8SrsYL2WOJeUqjH3OvAsPM' --name ${containerName} -p 8081:8080 ${containerName}:dev"
+        script {
+          docker.withRegistry('',registryCredential) {
+            dockerImage.push()
+          }
+        }
       }
     }
-  
+
+    stage("Deploying ") {
+      steps {
+          sh """
+                
+          """
+      }
+    }
   }
 }
