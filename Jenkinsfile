@@ -13,7 +13,7 @@ pipeline{
     registry = 'navapon3ds/play-golang'
     registryCredential = 'dockerhub'
 
-    containerName = 'play-golang'
+    containerName = 'play-withgo'
     scannerHome = tool 'sonar'
     gitRepo = 'https://github.com/Navapon/play-golang1.11.git'
   }
@@ -84,7 +84,9 @@ pipeline{
     stage("Deploying ") {
       steps {
           sh """
-                
+            docker pull ${registry}:dev
+            docker rm -f ${containerName} || echo 'not have any container to remove'
+            docker run --name ${containerName} ${registry}:dev -p 8880:8080
           """
       }
     }
