@@ -86,7 +86,7 @@ pipeline{
           sh """
             docker pull ${registry}:dev
             docker rm -f ${containerName} || echo 'not have any container to remove'
-            docker run --name ${containerName} ${registry}:dev -p 8880:8080
+            docker run --rm -d --name ${containerName} ${registry}:dev -p 8880:8080
           """
       }
     }
