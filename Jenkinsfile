@@ -4,9 +4,9 @@ def dockerImage
 pipeline{
   agent any
 
-  triggers {
+  // triggers {
     // pollSCM('* * * * *')
-  }
+  // }
 
   environment {
     root = tool name: 'GO_1.11.1', type: 'go'
