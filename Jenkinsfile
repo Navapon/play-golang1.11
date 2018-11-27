@@ -4,9 +4,9 @@ def dockerImage
 pipeline{
   agent any
 
-  // triggers {
-    // pollSCM('* * * * *')
-  // }
+  triggers {
+    pollSCM('* * * * *')
+  }
 
   environment {
     root = tool name: 'GO_1.11.1', type: 'go'
@@ -86,7 +86,7 @@ pipeline{
           sh """
             docker pull ${registry}:dev
             docker rm -f ${containerName} || echo 'not have any container to remove'
-            docker run --rm -d --name ${containerName} ${registry}:dev -p 8880:8080
+            docker run --rm -d  -p 8880:8080 --name ${containerName} ${registry}:dev
           """
       }
     }
