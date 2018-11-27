@@ -24,5 +24,5 @@ func main() {
 
 // Handler
 func hello(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello, Peekung!")
+	return c.String(http.StatusOK, "Hello, 3DS!")
 }
